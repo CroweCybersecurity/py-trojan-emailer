@@ -19,12 +19,12 @@ def send_email(recipient_email_addresss, cli_arguments, replacement_values=None)
     email_message = MIMEMultipart('alternative')
     email_message['Subject'] = cli_arguments.email_subject
     email_message['To'] = recipient_email_addresss
-    email_message['From'] = '{0} <{1}>'.format(cli_arguments.sender_display_name, cli_arguments.sender_address)
+    email_message['From'] = '"{0}" <{1}>'.format(cli_arguments.sender_display_name, cli_arguments.sender_address)
     email_message['X-Priority'] = cli_arguments.message_priority
 
     # Add a spoofed carbon copy if provided
     if cli_arguments.cc_display_name is not None:
-        email_message['CC'] = '{0} <>'.format(cli_arguments.cc_display_name)
+        email_message['CC'] = '"{0}" <>'.format(cli_arguments.cc_display_name)
 
     # Setup the email body
     email_body = cli_arguments.email_body.read()
