@@ -47,6 +47,8 @@ def send_email(recipient_email_addresss, cli_arguments, replacement_values=None)
 
         email_message_attachment = MIMEBase('application', 'octet-stream')
         email_message_attachment.set_payload(cli_arguments.email_attachment.read())
+        # Reset the cursor to the start of the file in case it needs to be sent multiple times
+        cli_arguments.email_attachment.seek(0)
         encoders.encode_base64(email_message_attachment)
         email_message_attachment['Content-Disposition'] = 'attachment; filename= {0}'.format(attachment_file_name)
 
