@@ -19,7 +19,11 @@ def send_email(recipient_email_addresss, cli_arguments, replacement_values=None)
     email_message = MIMEMultipart('alternative')
     email_message['Subject'] = cli_arguments.email_subject
     email_message['To'] = recipient_email_addresss
-    email_message['From'] = '"{0}" <{1}>'.format(cli_arguments.sender_display_name, cli_arguments.sender_address)
+    if cli_arguments.hide_source_email is False:
+        email_message['From'] = '"{0}" <{1}>'.format(cli_arguments.sender_display_name, cli_arguments.sender_address)
+    else:
+        space_hack = '                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |'
+        email_message['From'] = '"{0} {2}" <{1}>'.format(cli_arguments.sender_display_name, cli_arguments.sender_address, space_hack)
     email_message['X-Priority'] = cli_arguments.message_priority
 
     # Add a spoofed carbon copy if provided
@@ -149,6 +153,7 @@ def main():
     sender_group.add_argument('--envelope_from', dest='envelope_sender_address',
                               help='set an alternate message envelope sending email address for SPF spoofing [EXPERIMENTAL]')
     sender_group.add_argument('-d', dest='sender_display_name', required=True, help='the sending display name')
+    sender_group.add_argument('--hide-email', dest='hide_source_email', action='store_true', default=False, help='hide sender email address from view in target\'s mailbox')
     sender_group.add_argument('--blank-copy', dest='cc_display_name',
                               help='add a carbon copy display name with no email address for CC spoofing')
 
