@@ -22,7 +22,7 @@ def send_email(recipient_email_addresss, cli_arguments, replacement_values=None)
     if cli_arguments.hide_source_email is False:
         email_message['From'] = '"{0}" <{1}>'.format(cli_arguments.sender_display_name, cli_arguments.sender_address)
     else:
-        space_hack = '                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |'
+        space_hack = (' ' * 200) + '|'
         email_message['From'] = '"{0} {2}" <{1}>'.format(cli_arguments.sender_display_name, cli_arguments.sender_address, space_hack)
     email_message['X-Priority'] = cli_arguments.message_priority
 
